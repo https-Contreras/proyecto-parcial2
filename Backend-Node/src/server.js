@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-
+require('./config/db');
 // Inicializar la aplicación
 const app = express();
 const ALLOWED_ORIGINS = ["http://localhost:4200", "http://127.0.0.1:4200"]; // Agrega aquí la URL de tu frontend Angular
