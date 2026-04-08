@@ -32,6 +32,14 @@ app.get('/api/test', (req, res) => {
     });
 });
 
+
+//rutas de equipos
+const equiposRoutes = require('./routes/equipos.routes');
+app.use('/api/equipos', equiposRoutes);
+
+const empleadosRoutes = require('./routes/empleados.routes');
+app.use('/api/empleados', empleadosRoutes);
+
 // Levantar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
