@@ -1,20 +1,39 @@
 const pool = require('../config/db');
 
-const crearEquipo = async (datosEquipo) => {
-    // Extraemos los datos que nos mandará el formulario de Angular
-    const { numero_serie, tipo_equipo, marca, modelo, direccion_ip, direccion_mac, estado } = datosEquipo;
+// 1. Obtener todos los equipos (Con JOIN a empleados)
+const obtenerTodos = async () => {
+    // Usamos un LEFT JOIN por si hay equipos en almacén (empleado_id = NULL)
+    const [rows] = await pool.execute(`
+        SELECT 
+            eq.id, 
+            eq.numero_serie, 
+            eq.tipo_equipo, 
+            eq.marca, 
+            eq.modelo, 
+            eq.estado,
+            em.nombre_completo AS asignado_a
+        FROM equipos eq
+        LEFT JOIN empleados em ON eq.empleado_id = em.id
+        ORDER BY eq.id DESC
+    `);
+    return rows;
+};
+
+// 2. Crear un nuevo equipo (El POST que pide el PDF)
+const crearEquipo = async (datos) => {
+    const { numero_serie, tipo_equipo, marca, modelo, estado, empleado_id } = datos;
     
-    // Usamos ? para evitar inyección SQL (buenas prácticas de seguridad)
-    const [result] = await pool.execute(
-        `INSERT INTO equipos (numero_serie, tipo_equipo, marca, modelo, direccion_ip, direccion_mac, estado) 
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [numero_serie, tipo_equipo, marca, modelo, direccion_ip, direccion_mac, estado || 'Activo']
-    );
+    // El ? previene la inyección SQL
+    const [result] = await pool.execute(`
+        INSERT INTO equipos 
+        (numero_serie, tipo_equipo, marca, modelo, estado, empleado_id) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    `, [numero_serie, tipo_equipo, marca, modelo, estado || 'Disponible', empleado_id || null]);
     
     return result;
 };
 
-// Aquí agregaremos más funciones después (obtener todos, actualizar, etc.)
 module.exports = {
+    obtenerTodos,
     crearEquipo
 };
