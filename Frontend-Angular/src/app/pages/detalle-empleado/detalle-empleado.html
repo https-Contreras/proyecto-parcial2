@@ -1,0 +1,71 @@
+<div class="px-16 py-12 min-h-screen" style="background-color: #e1e5f2;">
+
+    @if (empleado) {
+    <div class="flex gap-10">
+
+        <!-- Tarjeta perfil -->
+        <div class="bg-white rounded-2xl shadow p-8 flex flex-col items-center gap-4 w-72">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center text-3xl text-white font-bold"
+                style="background-color: #022b3a;">
+                {{ empleado.nombre_completo[0] }}
+            </div>
+            <div class="text-center">
+                <p class="text-xl font-bold" style="color: #022b3a;">{{ empleado.nombre_completo }}</p>
+                <span class="text-xs px-3 py-1 rounded-full font-semibold mt-1 inline-block"
+                    style="background-color: #e1e5f2; color: #022b3a;">
+                    {{ empleado.departamento }}
+                </span>
+                <p class="text-sm text-gray-500 mt-2">{{ empleado.correo }}</p>
+            </div>
+            <button (click)="volver()"
+                class="w-full py-2 rounded-lg text-white text-sm font-medium transition hover:opacity-90 cursor-pointer"
+                style="background-color: #fc2bb6;">
+                ← Volver
+            </button>
+        </div>
+
+        <!-- Equipos asignados -->
+        <div class="flex-1">
+            <h2 class="text-2xl font-bold mb-6" style="color: #022b3a;">Equipos Asignados</h2>
+
+            @if (equiposAsignados.length > 0) {
+            <div class="flex flex-col gap-4">
+                @for (equipo of equiposAsignados; track equipo.id) {
+                <div class="bg-white rounded-xl shadow p-5 flex items-center gap-6">
+                    <span class="text-3xl">
+                        @if (equipo.tipo_equipo === 'Laptop') { 💻 }
+                        @else if (equipo.tipo_equipo === 'Servidor') { 🖥️ }
+                        @else { 🔧 }
+                    </span>
+                    <div class="flex-1">
+                        <p class="font-semibold" style="color: #022b3a;">{{ equipo.marca }} {{ equipo.modelo }}</p>
+                        <p class="text-sm text-gray-500">{{ equipo.tipo_equipo }} — {{ equipo.numero_serie }}</p>
+                    </div>
+                    <span class="text-xs px-3 py-1 rounded-full font-semibold"
+                        style="background-color: #fce7f3; color: #9d174d;">
+                        {{ equipo.estado }}
+                    </span>
+                </div>
+                }
+            </div>
+            } @else {
+            <div class="bg-white rounded-xl shadow p-10 text-center">
+                <p class="text-4xl mb-3">📭</p>
+                <p class="text-gray-500">Este empleado no tiene equipos asignados.</p>
+            </div>
+            }
+        </div>
+
+    </div>
+    } @else {
+    <div class="text-center py-20">
+        <p class="text-4xl mb-3">❌</p>
+        <p class="text-gray-500">Empleado no encontrado.</p>
+        <button (click)="volver()" class="mt-4 px-6 py-2 rounded-lg text-white cursor-pointer"
+            style="background-color: #fc2bb6;">
+            Volver
+        </button>
+    </div>
+    }
+
+</div>

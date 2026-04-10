@@ -1,0 +1,31 @@
+<div class="bg-white rounded-2xl shadow p-6 flex flex-col gap-3 border border-gray-100">
+    <div class="flex items-center justify-between">
+        <span class="text-2xl">
+            @if (equipo.tipo_equipo === 'Laptop') { 💻 }
+            @else if (equipo.tipo_equipo === 'Switch') { 🔀 }
+            @else if (equipo.tipo_equipo === 'Servidor') { 🖥️ }
+            @else { 🔧 }
+        </span>
+        <span class="text-xs font-semibold px-3 py-1 rounded-full"
+            [style.background-color]="equipo.estado === 'Disponible' ? '#d1fae5' : '#fce7f3'"
+            [style.color]="equipo.estado === 'Disponible' ? '#065f46' : '#9d174d'">
+            {{ equipo.estado }}
+        </span>
+    </div>
+
+    <div>
+        <p class="font-bold text-lg" style="color: #022b3a;">{{ equipo.marca }} {{ equipo.modelo }}</p>
+        <p class="text-sm text-gray-500">{{ equipo.tipo_equipo }} — {{ equipo.numero_serie }}</p>
+        @if (equipo.asignado_a) {
+        <p class="text-sm mt-1" style="color: #47bfd7;">👤 {{ equipo.asignado_a }}</p>
+        } @else {
+        <p class="text-sm mt-1 text-gray-400">Sin asignar</p>
+        }
+    </div>
+
+    <button (click)="verDetalle()"
+        class="mt-2 text-white text-sm py-2 rounded-lg transition hover:opacity-90 cursor-pointer"
+        style="background-color: #fc2bb6;">
+        Ver Más
+    </button>
+</div>

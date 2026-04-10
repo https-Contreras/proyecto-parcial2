@@ -1,0 +1,68 @@
+<div class="px-16 py-12 min-h-screen" style="background-color: #e1e5f2;">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold" style="color: #022b3a;">Reportar Equipo Dañado</h1>
+        <p class="mt-1 text-sm" style="color: #47bfd7;">Usa este formulario para reportar un equipo con fallas.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-10 max-w-xl">
+        <form #reporteForm="ngForm" (ngSubmit)="enviar(reporteForm)">
+
+            <!-- Asunto -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Asunto</label>
+                <input type="text" name="asunto" [(ngModel)]="asunto" required minlength="5" #asuntoRef="ngModel"
+                    placeholder="Ej: Pantalla rota" class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
+                    [class.border-red-400]="asuntoRef.invalid && asuntoRef.touched" />
+                @if (asuntoRef.touched && asuntoRef.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">El asunto es obligatorio.</p>
+                }
+                @if (asuntoRef.touched && asuntoRef.errors?.['minlength']) {
+                <p class="text-red-500 text-xs mt-1">Mínimo 5 caracteres.</p>
+                }
+            </div>
+
+            <!-- ID del Equipo -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">ID del Equipo</label>
+                <input type="text" name="equipoId" [(ngModel)]="equipoId" required #equipoIdRef="ngModel"
+                    placeholder="Ej: LT-DELL-001" class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
+                    [class.border-red-400]="equipoIdRef.invalid && equipoIdRef.touched" />
+                @if (equipoIdRef.touched && equipoIdRef.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">El ID del equipo es obligatorio.</p>
+                }
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Descripción del problema</label>
+                <textarea name="descripcion" [(ngModel)]="descripcion" required minlength="10" #descripcionRef="ngModel"
+                    rows="4" placeholder="Describe el problema con detalle..."
+                    class="w-full border rounded-lg px-4 py-2 text-sm outline-none resize-none"
+                    [class.border-red-400]="descripcionRef.invalid && descripcionRef.touched">
+        </textarea>
+                @if (descripcionRef.touched && descripcionRef.errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">La descripción es obligatoria.</p>
+                }
+                @if (descripcionRef.touched && descripcionRef.errors?.['minlength']) {
+                <p class="text-red-500 text-xs mt-1">Mínimo 10 caracteres.</p>
+                }
+            </div>
+
+            <!-- Preview double binding -->
+            @if (asunto || equipoId) {
+            <div class="mb-6 p-4 rounded-lg text-sm" style="background-color: #e1e5f2; color: #022b3a;">
+                <p class="font-semibold mb-1">Vista previa:</p>
+                <p>📋 <strong>Asunto:</strong> {{ asunto }}</p>
+                <p>🔧 <strong>Equipo:</strong> {{ equipoId }}</p>
+            </div>
+            }
+
+            <button type="submit"
+                class="w-full py-3 rounded-lg text-white font-semibold transition hover:opacity-90 cursor-pointer"
+                style="background-color: #022b3a;">
+                Enviar Reporte
+            </button>
+
+        </form>
+    </div>
+</div>

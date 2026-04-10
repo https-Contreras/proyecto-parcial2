@@ -1,0 +1,105 @@
+<div class="px-16 py-12 min-h-screen" style="background-color: #e1e5f2;">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold" style="color: #022b3a;">Registrar Nuevo Equipo</h1>
+        <p class="mt-1 text-sm" style="color: #47bfd7;">Completa todos los campos para dar de alta un equipo.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow p-10 max-w-2xl">
+        <form [formGroup]="form" (ngSubmit)="guardar()">
+
+            <!-- Número de Serie -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Número de Serie</label>
+                <input formControlName="numero_serie" type="text" placeholder="Ej: LT-DELL-001"
+                    class="w-full border rounded-lg px-4 py-2 text-sm outline-none focus:ring-2"
+                    [class.border-red-400]="f['numero_serie'].invalid && f['numero_serie'].touched"
+                    style="border-color: #e1e5f2;" />
+                @if (f['numero_serie'].touched && f['numero_serie'].errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">El número de serie es obligatorio.</p>
+                }
+                @if (f['numero_serie'].touched && f['numero_serie'].errors?.['minlength']) {
+                <p class="text-red-500 text-xs mt-1">Mínimo 5 caracteres.</p>
+                }
+                @if (f['numero_serie'].touched && f['numero_serie'].errors?.['pattern']) {
+                <p class="text-red-500 text-xs mt-1">Solo mayúsculas, números y guiones. Ej: LT-DELL-001</p>
+                }
+            </div>
+
+            <!-- Tipo de Equipo -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Tipo de Equipo</label>
+                <select formControlName="tipo_equipo" class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
+                    [class.border-red-400]="f['tipo_equipo'].invalid && f['tipo_equipo'].touched">
+                    <option value="">-- Selecciona --</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Servidor">Servidor</option>
+                    <option value="Switch">Switch</option>
+                    <option value="Monitor">Monitor</option>
+                    <option value="Impresora">Impresora</option>
+                </select>
+                @if (f['tipo_equipo'].touched && f['tipo_equipo'].errors?.['required']) {
+                <p class="text-red-500 text-xs mt-1">Selecciona un tipo de equipo.</p>
+                }
+            </div>
+
+            <!-- Marca y Modelo en 2 columnas -->
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Marca</label>
+                    <input formControlName="marca" type="text" placeholder="Ej: Dell"
+                        class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
+                        [class.border-red-400]="f['marca'].invalid && f['marca'].touched" />
+                    @if (f['marca'].touched && f['marca'].errors?.['required']) {
+                    <p class="text-red-500 text-xs mt-1">La marca es obligatoria.</p>
+                    }
+                    @if (f['marca'].touched && f['marca'].errors?.['minlength']) {
+                    <p class="text-red-500 text-xs mt-1">Mínimo 2 caracteres.</p>
+                    }
+                    @if (f['marca'].touched && f['marca'].errors?.['maxlength']) {
+                    <p class="text-red-500 text-xs mt-1">Máximo 40 caracteres.</p>
+                    }
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Modelo</label>
+                    <input formControlName="modelo" type="text" placeholder="Ej: Latitude 5420"
+                        class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
+                        [class.border-red-400]="f['modelo'].invalid && f['modelo'].touched" />
+                    @if (f['modelo'].touched && f['modelo'].errors?.['required']) {
+                    <p class="text-red-500 text-xs mt-1">El modelo es obligatorio.</p>
+                    }
+                    @if (f['modelo'].touched && f['modelo'].errors?.['minlength']) {
+                    <p class="text-red-500 text-xs mt-1">Mínimo 2 caracteres.</p>
+                    }
+                    @if (f['modelo'].touched && f['modelo'].errors?.['maxlength']) {
+                    <p class="text-red-500 text-xs mt-1">Máximo 60 caracteres.</p>
+                    }
+                </div>
+            </div>
+
+            <!-- Estado -->
+            <div class="mb-8">
+                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Estado</label>
+                <select formControlName="estado" class="w-full border rounded-lg px-4 py-2 text-sm outline-none">
+                    <option value="Disponible">Disponible</option>
+                    <option value="Asignado">Asignado</option>
+                    <option value="En mantenimiento">En mantenimiento</option>
+                </select>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex gap-4">
+                <button type="submit"
+                    class="flex-1 py-3 rounded-lg text-white font-semibold transition hover:opacity-90 cursor-pointer"
+                    style="background-color: #022b3a;">
+                    Guardar Equipo
+                </button>
+                <button type="button" (click)="router.navigate(['/equipos'])"
+                    class="flex-1 py-3 rounded-lg font-semibold transition hover:opacity-90 cursor-pointer"
+                    style="background-color: #e1e5f2; color: #022b3a;">
+                    Cancelar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

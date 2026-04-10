@@ -1,3 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+:root {
+    --navy: #022b3a;
+    --pink: #fc2bb6;
+    --cyan: #47bfd7;
+    --lavender: #e1e5f2;
+}
