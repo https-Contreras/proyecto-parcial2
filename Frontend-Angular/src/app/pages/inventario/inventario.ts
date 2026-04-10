@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TarjetaEquipo, Equipo } from '../../components/tarjeta-equipo/tarjeta-equipo';
 
@@ -13,11 +13,22 @@ export class Inventario implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  equipos: Equipo[] = [];
-  equiposFiltrados: Equipo[] = [];
-  filtroActivo = 'todos';
+  // SIGNALS — Aportación Extra #2
+  equipos = signal<Equipo[]>([]);
+  filtroActivo = signal<string>('todos');
 
-  // Data hardcodeada hasta que Atenea conecte los servicios
+  // computed deriva automáticamente cuando cambia equipos o filtroActivo
+  equiposFiltrados = computed(() => {
+    const filtro = this.filtroActivo();
+    const lista = this.equipos();
+
+    if (filtro === 'todos') return lista;
+    if (filtro === 'Disponible' || filtro === 'Asignado') {
+      return lista.filter(e => e.estado === filtro);
+    }
+    return lista.filter(e => e.tipo_equipo === filtro);
+  });
+
   equiposMock: Equipo[] = [
     { id: 1, numero_serie: 'LT-DELL-001', tipo_equipo: 'Laptop', marca: 'Dell', modelo: 'Latitude 5420', estado: 'Asignado', asignado_a: 'Jael Contreras' },
     { id: 2, numero_serie: 'LT-HP-002', tipo_equipo: 'Laptop', marca: 'HP', modelo: 'EliteBook 840', estado: 'Disponible', asignado_a: null },
@@ -26,21 +37,18 @@ export class Inventario implements OnInit {
   ];
 
   ngOnInit() {
-    this.equipos = this.equiposMock;
+    this.equipos.set(this.equiposMock);
 
     this.route.queryParamMap.subscribe(params => {
       const estado = params.get('estado');
       const tipo = params.get('tipo');
 
       if (estado) {
-        this.filtroActivo = estado;
-        this.equiposFiltrados = this.equipos.filter(e => e.estado === estado);
+        this.filtroActivo.set(estado);
       } else if (tipo) {
-        this.filtroActivo = tipo;
-        this.equiposFiltrados = this.equipos.filter(e => e.tipo_equipo === tipo);
+        this.filtroActivo.set(tipo);
       } else {
-        this.filtroActivo = 'todos';
-        this.equiposFiltrados = this.equipos;
+        this.filtroActivo.set('todos');
       }
     });
   }
