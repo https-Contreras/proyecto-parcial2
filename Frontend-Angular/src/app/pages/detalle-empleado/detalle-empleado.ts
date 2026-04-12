@@ -1,7 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Empleado } from '../empleados/empleados';
 import { Equipo } from '../../components/tarjeta-equipo/tarjeta-equipo';
+import { EmpleadosService } from '../../services/empleados.service';
+import { EquiposService } from '../../services/equipos.service';
 
 @Component({
   selector: 'app-detalle-empleado',
@@ -13,28 +15,37 @@ import { Equipo } from '../../components/tarjeta-equipo/tarjeta-equipo';
 export class DetalleEmpleado implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private empleadosService = inject(EmpleadosService);
+  private equiposService = inject(EquiposService);
 
-  empleado: Empleado | null = null;
-  equiposAsignados: Equipo[] = [];
-
-  // Mock data
-  empleadosMock: Empleado[] = [
-    { id: 1, nombre_completo: 'Jael Contreras', departamento: 'Sistemas', correo: 'jael.contreras@empresa.com' },
-    { id: 2, nombre_completo: 'Atenea López', departamento: 'Desarrollo', correo: 'atenea.lopez@empresa.com' },
-    { id: 3, nombre_completo: 'Romeo García', departamento: 'Soporte TI', correo: 'romeo.garcia@empresa.com' },
-    { id: 4, nombre_completo: 'Salvador Díaz', departamento: 'Infraestructura', correo: 'salvador.diaz@empresa.com' },
-  ];
-
-  equiposMock: Equipo[] = [
-    { id: 1, numero_serie: 'LT-DELL-001', tipo_equipo: 'Laptop', marca: 'Dell', modelo: 'Latitude 5420', estado: 'Asignado', asignado_a: 'Jael Contreras' },
-    { id: 4, numero_serie: 'SRV-DEL-010', tipo_equipo: 'Servidor', marca: 'Dell', modelo: 'PowerEdge R740', estado: 'Asignado', asignado_a: 'Atenea López' },
-  ];
+  empleado = signal<Empleado | null>(null);
+  equiposAsignados = signal<Equipo[]>([]);
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
-      this.empleado = this.empleadosMock.find(e => e.id === id) || null;
-      this.equiposAsignados = this.equiposMock.filter(e => e.asignado_a === this.empleado?.nombre_completo);
+      
+      this.empleadosService.getEmpleadoById(id).subscribe({
+        next: (response: any) => {
+          this.empleado.set(response.data || null);
+
+          // Obtener equipos
+          if (this.empleado()) {
+             this.equiposService.getEquipos().subscribe({
+               next: (res: any) => {
+                 const allEquipos: Equipo[] = res.data || [];
+                 // Filtramos asumiendo que asignado_a coindice con el nombre. Dependerá de tu BD si tiene una FK empleado_id.
+                 // Ajustado para checar si la respuesta trae empleado_id o asignado_a
+                 this.equiposAsignados.set(allEquipos.filter(e => 
+                    e.asignado_a === this.empleado()?.nombre_completo || 
+                    (e as any).empleado_id === this.empleado()?.id
+                 ));
+               }
+             });
+          }
+        },
+        error: (err) => console.error('Error al obtener empleado', err)
+      });
     });
   }
 

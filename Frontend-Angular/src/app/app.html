@@ -1,14 +1,21 @@
-<nav style="background-color: #022b3a;" class="text-white px-8 py-4 flex items-center gap-8">
-  <span class="text-xl font-bold" style="color: #47bfd7;">⚙ Activos TI</span>
-  <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
-    class="nav-link hover:opacity-80 transition">Inicio</a>
-  <a routerLink="/equipos" routerLinkActive="active-link" class="nav-link hover:opacity-80 transition">Inventario</a>
-  <a routerLink="/empleados" routerLinkActive="active-link" class="nav-link hover:opacity-80 transition">Empleados</a>
-  <a routerLink="/equipos/crear" routerLinkActive="active-link" class="nav-link hover:opacity-80 transition">+ Registrar
-    Equipo</a>
-  <a routerLink="/contacto" routerLinkActive="active-link" class="nav-link hover:opacity-80 transition">Reportar</a>
+<nav style="background-color: #022b3a;" class="text-white px-8 py-4 flex flex-wrap items-center justify-between shadow-lg sticky top-0 z-50">
+  <div class="flex items-center gap-2">
+    <span class="text-2xl font-black tracking-wide" style="color: #47bfd7;">⚙ Activos TI</span>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 sm:gap-6 font-medium text-sm">
+    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
+      class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Inicio</a>
+    <a routerLink="/equipos" routerLinkActive="active-link" 
+      class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Inventario</a>
+    <a routerLink="/empleados" routerLinkActive="active-link" 
+      class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Empleados</a>
+    <a routerLink="/equipos/crear" routerLinkActive="active-link" 
+      class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">+ Registrar Equipo</a>
+    <a routerLink="/contacto" routerLinkActive="active-link" 
+      class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Reportar</a>
+  </div>
 </nav>
 
-<main style="background-color: #e1e5f2;" class="min-h-screen">
+<main style="background-color: #e1e5f2;" class="min-h-screen font-sans">
   <router-outlet />
 </main>

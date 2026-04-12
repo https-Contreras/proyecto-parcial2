@@ -1,0 +1,80 @@
+<div class="px-6 sm:px-16 py-12 min-h-screen flex justify-center w-full" style="background-color: #f1f5f9;">
+    <div class="w-full max-w-3xl">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-sm mb-3" style="color: #022b3a;">👤 Nuevo Colaborador</h1>
+            <p class="text-lg font-medium" style="color: #47bfd7;">Registra un nuevo miembro del equipo en el ecosistema corporativo.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 p-8 sm:p-12 border border-gray-100 relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-full h-1 bg-linear-to-l from-[#022b3a] via-[#47bfd7] to-[#fc2bb6] opacity-75"></div>
+            
+            <form [formGroup]="form" (ngSubmit)="guardar()" class="flex flex-col gap-6">
+
+                <!-- Nombre Completo -->
+                <div class="flex flex-col group/input">
+                    <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Nombre Completo</label>
+                    <input formControlName="nombre_completo" type="text" placeholder="Ej: Alejandra Gómez"
+                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                        [class.border-red-400]="f['nombre_completo'].invalid && f['nombre_completo'].touched"
+                        [class.focus:border-[#47bfd7]]="!(f['nombre_completo'].invalid && f['nombre_completo'].touched)"
+                        style="border-color: #e1e5f2;" />
+                    @if (f['nombre_completo'].touched && f['nombre_completo'].errors?.['required']) {
+                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Campo obligatorio.</p>
+                    }
+                    @if (f['nombre_completo'].touched && f['nombre_completo'].errors?.['minlength']) {
+                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Faltan caracteres (Mín. 5).</p>
+                    }
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-2">
+                    <!-- Departamento -->
+                    <div class="flex flex-col group/input">
+                        <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Área / Departamento</label>
+                        <input formControlName="departamento" type="text" placeholder="Ej: Infraestructura TI"
+                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                            [class.border-red-400]="f['departamento'].invalid && f['departamento'].touched"
+                            [class.focus:border-[#47bfd7]]="!(f['departamento'].invalid && f['departamento'].touched)"
+                            style="border-color: #e1e5f2;" />
+                        @if (f['departamento'].touched && f['departamento'].errors?.['required']) {
+                        <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Asignación obligatoria.</p>
+                        }
+                        @if (f['departamento'].touched && f['departamento'].errors?.['minlength']) {
+                        <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Muy corto (Mín. 2).</p>
+                        }
+                    </div>
+
+                    <!-- Correo -->
+                    <div class="flex flex-col group/input">
+                        <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Correo Institucional</label>
+                        <input formControlName="correo" type="email" placeholder="Ej: alex@empresa.com"
+                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                            [class.border-red-400]="f['correo'].invalid && f['correo'].touched"
+                            [class.focus:border-[#47bfd7]]="!(f['correo'].invalid && f['correo'].touched)"
+                            style="border-color: #e1e5f2;" />
+                        @if (f['correo'].touched && f['correo'].errors?.['required']) {
+                        <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Correo obligatorio.</p>
+                        }
+                        @if (f['correo'].touched && f['correo'].errors?.['email']) {
+                        <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Formato de email inválido.</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-4 border-t border-gray-100">
+                    <button type="submit"
+                        class="flex-2 py-4 rounded-2xl text-white text-sm font-black tracking-wide uppercase transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#022b3a]/30 active:scale-95 cursor-pointer"
+                        style="background-color: #022b3a;">
+                        💾 Registrar Colaborador
+                    </button>
+                    <button type="button" (click)="router.navigate(['/empleados'])"
+                        class="flex-1 py-4 rounded-2xl text-sm font-black tracking-wide uppercase transition-all duration-300 hover:bg-gray-200 active:scale-95 cursor-pointer border-2"
+                        style="background-color: #f8fafc; color: #022b3a; border-color: #e1e5f2;">
+                        Abortar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

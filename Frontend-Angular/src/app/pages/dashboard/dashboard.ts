@@ -9,5 +9,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
-  usuario = 'Salvador';
+  usuario = '';
 }

@@ -27,4 +27,42 @@ const obtenerEmpleadoPorId = async (req, res) => {
     }
 };
 
-module.exports = { obtenerEmpleados, obtenerEmpleadoPorId };
+const crearEmpleado = async (req, res) => {
+    try {
+        const resultado = await EmpleadosModel.crearEmpleado(req.body);
+        res.status(201).json({
+            status: 'success',
+            message: 'Empleado registrado correctamente',
+            insertId: resultado.insertId
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Error al registrar el empleado' });
+    }
+};
+
+const actualizarEmpleado = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultado = await EmpleadosModel.actualizarEmpleado(id, req.body);
+        
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({ status: 'error', message: 'Empleado no encontrado' });
+        }
+        
+        res.json({
+            status: 'success',
+            message: 'Empleado actualizado correctamente'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Error al actualizar el empleado' });
+    }
+};
+
+module.exports = { 
+    obtenerEmpleados, 
+    obtenerEmpleadoPorId,
+    crearEmpleado,
+    actualizarEmpleado 
+};

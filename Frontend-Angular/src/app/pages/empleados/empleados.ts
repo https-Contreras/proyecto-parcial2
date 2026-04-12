@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { EmpleadosService } from '../../services/empleados.service';
 
 export interface Empleado {
   id: number;
@@ -18,21 +18,35 @@ export interface Empleado {
 })
 export class Empleados implements OnInit {
   private router = inject(Router);
+  private empleadosService = inject(EmpleadosService);
 
-  empleados: Empleado[] = [];
-
-  empleadosMock: Empleado[] = [
-    { id: 1, nombre_completo: 'Jael Contreras', departamento: 'Sistemas', correo: 'jael.contreras@empresa.com' },
-    { id: 2, nombre_completo: 'Atenea López', departamento: 'Desarrollo', correo: 'atenea.lopez@empresa.com' },
-    { id: 3, nombre_completo: 'Romeo García', departamento: 'Soporte TI', correo: 'romeo.garcia@empresa.com' },
-    { id: 4, nombre_completo: 'Salvador Díaz', departamento: 'Infraestructura', correo: 'salvador.diaz@empresa.com' },
-  ];
+  empleados = signal<Empleado[]>([]);
 
   ngOnInit() {
-    this.empleados = this.empleadosMock;
+    this.cargarEmpleados();
+  }
+
+  cargarEmpleados() {
+    this.empleadosService.getEmpleados().subscribe({
+      next: (response: any) => {
+        this.empleados.set(response.data || []);
+        console.log('Empleados obtenidos:', this.empleados());
+      },
+      error: (err) => {
+        console.error('Error al obtener empleados:', err);
+      }
+    });
   }
 
   verDetalle(id: number) {
     this.router.navigate(['/empleado', id]);
+  }
+
+  crearEmpleado() {
+    this.router.navigate(['/empleados/crear']);
+  }
+
+  editarEmpleado(id: number) {
+    this.router.navigate(['/empleados/editar', id]);
   }
 }

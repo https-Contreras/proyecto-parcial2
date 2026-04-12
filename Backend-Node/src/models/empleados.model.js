@@ -22,7 +22,30 @@ const obtenerPorId = async (id) => {
     return rows[0];
 };
 
+// 3. Crear un nuevo empleado
+const crearEmpleado = async (datos) => {
+    const { nombre_completo, departamento, correo } = datos;
+    const [result] = await pool.execute(`
+        INSERT INTO empleados (nombre_completo, departamento, correo) 
+        VALUES (?, ?, ?)
+    `, [nombre_completo, departamento, correo]);
+    return result;
+};
+
+// 4. Actualizar un empleado
+const actualizarEmpleado = async (id, datos) => {
+    const { nombre_completo, departamento, correo } = datos;
+    const [result] = await pool.execute(`
+        UPDATE empleados 
+        SET nombre_completo = ?, departamento = ?, correo = ?
+        WHERE id = ?
+    `, [nombre_completo, departamento, correo, id]);
+    return result;
+};
+
 module.exports = {
     obtenerTodos,
-    obtenerPorId
+    obtenerPorId,
+    crearEmpleado,
+    actualizarEmpleado
 };

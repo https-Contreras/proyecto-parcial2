@@ -1,68 +1,86 @@
-<div class="px-16 py-12 min-h-screen" style="background-color: #e1e5f2;">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold" style="color: #022b3a;">Reportar Equipo Dañado</h1>
-        <p class="mt-1 text-sm" style="color: #47bfd7;">Usa este formulario para reportar un equipo con fallas.</p>
-    </div>
+<div class="px-6 py-12 min-h-screen flex items-center justify-center bg-[#f1f5f9]">
+    <div class="max-w-2xl w-full p-10 bg-white rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden group">
+        
+        <!-- Decoration -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#47bfd7]/10 rounded-full blur-3xl group-hover:bg-[#fc2bb6]/10 transition-colors duration-700"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-[#022b3a]/10 rounded-full blur-3xl group-hover:bg-[#47bfd7]/10 transition-colors duration-700"></div>
 
-    <div class="bg-white rounded-2xl shadow p-10 max-w-xl">
-        <form #reporteForm="ngForm" (ngSubmit)="enviar(reporteForm)">
+        <div class="relative z-10 text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-[#022b3a] mb-3">🛠️ Reporte de Incidencias</h1>
+            <p class="text-lg text-[#47bfd7] font-medium">Levanta un ticket de soporte para notificar anomalías en los equipos.</p>
+        </div>
+
+        <form #reporteForm="ngForm" (ngSubmit)="enviar(reporteForm)" class="relative z-10 space-y-6">
 
             <!-- Asunto -->
-            <div class="mb-6">
-                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Asunto</label>
-                <input type="text" name="asunto" [(ngModel)]="asunto" required minlength="5" #asuntoRef="ngModel"
-                    placeholder="Ej: Pantalla rota" class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
-                    [class.border-red-400]="asuntoRef.invalid && asuntoRef.touched" />
+            <div class="flex flex-col">
+                <label class="text-xs font-black uppercase tracking-wider text-[#022b3a] mb-2">Asunto Principal</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">🏷️</span>
+                    <input type="text" name="asunto" [(ngModel)]="asunto" required minlength="5" #asuntoRef="ngModel"
+                        placeholder="Ej: Pantalla con fallas intermitentes"
+                        class="pl-12 w-full p-4 bg-gray-50 border-2 rounded-2xl text-sm font-semibold outline-none transition-all duration-300 focus:bg-white"
+                        [class.border-red-400]="asuntoRef.invalid && asuntoRef.touched"
+                        [class.focus:border-[#47bfd7]]="!(asuntoRef.invalid && asuntoRef.touched)"
+                        [class.border-[#e1e5f2]]="!(asuntoRef.invalid && asuntoRef.touched)"/>
+                </div>
                 @if (asuntoRef.touched && asuntoRef.errors?.['required']) {
-                <p class="text-red-500 text-xs mt-1">El asunto es obligatorio.</p>
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ El asunto es obligatorio</span>
                 }
                 @if (asuntoRef.touched && asuntoRef.errors?.['minlength']) {
-                <p class="text-red-500 text-xs mt-1">Mínimo 5 caracteres.</p>
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Requiere mayor nivel de detalle (mín. 5 chars)</span>
                 }
             </div>
 
             <!-- ID del Equipo -->
-            <div class="mb-6">
-                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">ID del Equipo</label>
-                <input type="text" name="equipoId" [(ngModel)]="equipoId" required #equipoIdRef="ngModel"
-                    placeholder="Ej: LT-DELL-001" class="w-full border rounded-lg px-4 py-2 text-sm outline-none"
-                    [class.border-red-400]="equipoIdRef.invalid && equipoIdRef.touched" />
+            <div class="flex flex-col">
+                <label class="text-xs font-black uppercase tracking-wider text-[#022b3a] mb-2">Identificador de Activo</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">💻</span>
+                    <input type="text" name="equipoId" [(ngModel)]="equipoId" required #equipoIdRef="ngModel"
+                        placeholder="Ej: LT-DELL-001"
+                        class="pl-12 w-full p-4 bg-gray-50 border-2 rounded-2xl text-sm font-semibold outline-none transition-all duration-300 focus:bg-white"
+                        [class.border-red-400]="equipoIdRef.invalid && equipoIdRef.touched"
+                        [class.focus:border-[#47bfd7]]="!(equipoIdRef.invalid && equipoIdRef.touched)"
+                        [class.border-[#e1e5f2]]="!(equipoIdRef.invalid && equipoIdRef.touched)"/>
+                </div>
                 @if (equipoIdRef.touched && equipoIdRef.errors?.['required']) {
-                <p class="text-red-500 text-xs mt-1">El ID del equipo es obligatorio.</p>
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Referencia del equipo obligatoria</span>
                 }
             </div>
 
             <!-- Descripción -->
-            <div class="mb-8">
-                <label class="block text-sm font-semibold mb-1" style="color: #022b3a;">Descripción del problema</label>
+            <div class="flex flex-col">
+                <label class="text-xs font-black uppercase tracking-wider text-[#022b3a] mb-2">Resumen Diagnóstico</label>
                 <textarea name="descripcion" [(ngModel)]="descripcion" required minlength="10" #descripcionRef="ngModel"
-                    rows="4" placeholder="Describe el problema con detalle..."
-                    class="w-full border rounded-lg px-4 py-2 text-sm outline-none resize-none"
-                    [class.border-red-400]="descripcionRef.invalid && descripcionRef.touched">
-        </textarea>
+                    rows="4" placeholder="Describe exhaustivamente las fallas presentadas, el contexto en que ocurren y los pasos realizados para intentar mitigar el problema..."
+                    class="w-full p-4 bg-gray-50 border-2 rounded-2xl text-sm font-semibold outline-none transition-all duration-300 focus:bg-white resize-none"
+                    [class.border-red-400]="descripcionRef.invalid && descripcionRef.touched"
+                    [class.focus:border-[#47bfd7]]="!(descripcionRef.invalid && descripcionRef.touched)"
+                    [class.border-[#e1e5f2]]="!(descripcionRef.invalid && descripcionRef.touched)"></textarea>
                 @if (descripcionRef.touched && descripcionRef.errors?.['required']) {
-                <p class="text-red-500 text-xs mt-1">La descripción es obligatoria.</p>
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Se requiere la descripción de la incidencia</span>
                 }
                 @if (descripcionRef.touched && descripcionRef.errors?.['minlength']) {
-                <p class="text-red-500 text-xs mt-1">Mínimo 10 caracteres.</p>
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Información insuficiente (mín. 10 chars)</span>
                 }
             </div>
 
             <!-- Preview double binding -->
             @if (asunto || equipoId) {
-            <div class="mb-6 p-4 rounded-lg text-sm" style="background-color: #e1e5f2; color: #022b3a;">
-                <p class="font-semibold mb-1">Vista previa:</p>
-                <p>📋 <strong>Asunto:</strong> {{ asunto }}</p>
-                <p>🔧 <strong>Equipo:</strong> {{ equipoId }}</p>
+            <div class="mt-4 p-5 rounded-2xl border-2 border-dashed border-[#47bfd7]/50 bg-[#47bfd7]/5 text-sm font-medium text-[#022b3a]">
+                <p class="font-black text-xs uppercase tracking-widest text-[#47bfd7] mb-3">Vista Previa del Ticket</p>
+                <div class="space-y-2">
+                    <p class="flex items-start gap-2"><span>🏷️</span> <strong class="min-w-16 block">Asunto:</strong> <span class="text-gray-600">{{ asunto || '--' }}</span></p>
+                    <p class="flex items-start gap-2"><span>💻</span> <strong class="min-w-16 block">Equipo:</strong> <span class="text-gray-600">{{ equipoId || '--' }}</span></p>
+                </div>
             </div>
             }
 
             <button type="submit"
-                class="w-full py-3 rounded-lg text-white font-semibold transition hover:opacity-90 cursor-pointer"
-                style="background-color: #022b3a;">
-                Enviar Reporte
+                class="w-full py-4 mt-6 bg-[#022b3a] hover:bg-[#022b3a]/90 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#022b3a]/20 active:scale-95 cursor-pointer flex justify-center items-center gap-2">
+                <span>🔥 Escalar Reporte a Soporte Técnico</span>
             </button>
-
         </form>
     </div>
 </div>

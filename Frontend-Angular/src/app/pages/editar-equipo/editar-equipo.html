@@ -1,12 +1,12 @@
 <div class="px-6 sm:px-16 py-12 min-h-screen flex justify-center w-full" style="background-color: #f1f5f9;">
     <div class="w-full max-w-3xl">
         <div class="mb-10 text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-sm mb-3" style="color: #022b3a;">⚙️ Nuevo Activo TI</h1>
-            <p class="text-lg font-medium" style="color: #47bfd7;">Registra metódicamente la información de un nuevo equipo en el catálogo institucional.</p>
+            <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-sm mb-3" style="color: #022b3a;">✏️ Editar Activo TI</h1>
+            <p class="text-lg font-medium" style="color: #47bfd7;">Actualiza la información técnica y de asignación del equipo en el catálogo.</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 p-8 sm:p-12 border border-gray-100 relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-full h-1 bg-linear-to-l from-[#022b3a] via-[#47bfd7] to-[#fc2bb6] opacity-75"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[#fc2bb6] via-[#47bfd7] to-[#022b3a] opacity-75"></div>
             
             <form [formGroup]="form" (ngSubmit)="guardar()" class="flex flex-col gap-6">
 
@@ -14,7 +14,7 @@
                 <div class="flex flex-col group/input">
                     <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Número de Serie Unívoco</label>
                     <input formControlName="numero_serie" type="text" placeholder="Ej: LT-DELL-001"
-                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white focus:shadow-inner"
                         [class.border-red-400]="f['numero_serie'].invalid && f['numero_serie'].touched"
                         [class.focus:border-[#47bfd7]]="!(f['numero_serie'].invalid && f['numero_serie'].touched)"
                         style="border-color: #e1e5f2;" />
@@ -25,7 +25,7 @@
                     <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Faltan caracteres (Mín. 5).</p>
                     }
                     @if (f['numero_serie'].touched && f['numero_serie'].errors?.['pattern']) {
-                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Formato inválido. Usa MAYÚSCULAS y números (Ej: NUM-1).</p>
+                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Formato inválido.</p>
                     }
                 </div>
 
@@ -33,7 +33,7 @@
                 <div class="flex flex-col group/input">
                     <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Categoría Tecnológica</label>
                     <select formControlName="tipo_equipo" 
-                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white appearance-none cursor-pointer"
+                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white appearance-none cursor-pointer focus:shadow-inner"
                         [class.border-red-400]="f['tipo_equipo'].invalid && f['tipo_equipo'].touched"
                         [class.focus:border-[#47bfd7]]="!(f['tipo_equipo'].invalid && f['tipo_equipo'].touched)"
                         style="border-color: #e1e5f2;">
@@ -54,7 +54,7 @@
                     <div class="flex flex-col group/input">
                         <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Empresa Fabricante</label>
                         <input formControlName="marca" type="text" placeholder="Ej: Dell Technologies"
-                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white focus:shadow-inner"
                             [class.border-red-400]="f['marca'].invalid && f['marca'].touched"
                             [class.focus:border-[#47bfd7]]="!(f['marca'].invalid && f['marca'].touched)"
                             style="border-color: #e1e5f2;" />
@@ -71,7 +71,7 @@
                     <div class="flex flex-col group/input">
                         <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Designación Comercial</label>
                         <input formControlName="modelo" type="text" placeholder="Ej: Latitude 5420 Vpro"
-                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white"
+                            class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white focus:shadow-inner"
                             [class.border-red-400]="f['modelo'].invalid && f['modelo'].touched"
                             [class.focus:border-[#47bfd7]]="!(f['modelo'].invalid && f['modelo'].touched)"
                             style="border-color: #e1e5f2;" />
@@ -91,7 +91,7 @@
                 <div class="flex flex-col group/input">
                     <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300" style="color: #022b3a;">Estatus Operativo</label>
                     <select formControlName="estado" 
-                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-extrabold outline-none transition-all duration-300 bg-gray-50 focus:bg-white appearance-none cursor-pointer"
+                        class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-extrabold outline-none transition-all duration-300 bg-gray-50 focus:bg-white appearance-none cursor-pointer focus:shadow-inner"
                         [class.focus:border-[#47bfd7]]="true"
                         [style.color]="f['estado'].value === 'Disponible' ? '#166534' : (f['estado'].value === 'Asignado' ? '#9d174d' : '#854d0e')"
                         style="border-color: #e1e5f2;">
@@ -106,7 +106,7 @@
                     <label class="text-[0.80rem] font-black uppercase tracking-widest mb-2 transition-colors duration-300 flex items-center gap-2" style="color: #022b3a;">
                         <span class="text-lg">👤</span> ID de Empleado Asignado <span class="bg-gray-200 text-gray-500 px-2 py-0.5 rounded-md text-[0.6rem] tracking-normal mb-0.5">Opcional</span>
                     </label>
-                    <input formControlName="empleado_id" type="number" placeholder="Identificador numérico. Ej: 512"
+                    <input formControlName="empleado_id" type="number" placeholder="Ej: 512"
                         class="w-full border-2 rounded-2xl px-5 py-3.5 text-sm font-semibold text-gray-700 outline-none transition-all duration-300 bg-gray-50 focus:bg-white focus:shadow-inner"
                         [class.border-red-400]="f['empleado_id'].invalid && f['empleado_id'].touched"
                         [class.focus:border-[#47bfd7]]="!(f['empleado_id'].invalid && f['empleado_id'].touched)"
@@ -118,16 +118,16 @@
                     <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> ID Inválido: Fuera de rango.</p>
                     }
                     @if (f['empleado_id'].touched && f['empleado_id'].errors?.['pattern']) {
-                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Requiere numeración entera sin símbolos.</p>
+                    <p class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1"><span>⚠️</span> Solo números enteros permitidos.</p>
                     }
                 </div>
 
                 <!-- Botones -->
                 <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-4">
                     <button type="submit"
-                        class="flex-2 py-4 rounded-2xl text-white text-sm font-black tracking-wide uppercase transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#022b3a]/30 active:scale-95 cursor-pointer"
-                        style="background-color: #022b3a;">
-                        💾 Inscribir Activo
+                        class="flex-2 py-4 rounded-2xl text-white text-sm font-black tracking-wide uppercase transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#47bfd7]/30 active:scale-95 cursor-pointer"
+                        style="background-color: #47bfd7;">
+                        🔄 Actualizar Activo
                     </button>
                     <button type="button" (click)="router.navigate(['/equipos'])"
                         class="flex-1 py-4 rounded-2xl text-sm font-black tracking-wide uppercase transition-all duration-300 hover:bg-gray-200 active:scale-95 cursor-pointer border-2"

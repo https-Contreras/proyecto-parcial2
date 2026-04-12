@@ -1,28 +1,28 @@
-<div class="px-16 py-20 min-h-screen" style="background-color: #e1e5f2;">
-    <div class="mb-12">
-        <h1 class="text-4xl font-bold" style="color: #022b3a;">
-            Bienvenido, <span style="color: #fc2bb6;">{{ usuario }}</span> 👋
+<div class="px-6 sm:px-16 py-20 min-h-screen flex flex-col items-center" style="background-color: #e1e5f2;">
+    <div class="mb-12 text-center w-full max-w-4xl">
+        <h1 class="text-5xl font-black drop-shadow-sm tracking-tight" style="color: #022b3a;">
+            Bienvenido <span style="color: #fc2bb6;">{{ usuario }}</span>
         </h1>
-        <p class="mt-2" style="color: #47bfd7;">Sistema de Gestión de Activos TI — Panel principal</p>
+        <p class="mt-4 text-lg font-medium" style="color: #47bfd7;">Sistema de Gestión de Activos TI — Panel principal</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-8 max-w-3xl">
-        <div class="bg-white rounded-2xl shadow p-8 flex flex-col gap-4">
-            <div class="text-4xl">🖥️</div>
-            <h2 class="text-xl font-semibold" style="color: #022b3a;">Ver Inventario</h2>
-            <p class="text-sm" style="color: #47bfd7;">Consulta todos los equipos registrados en el sistema.</p>
-            <a routerLink="/equipos" class="mt-2 text-white text-center py-2 rounded-lg transition hover:opacity-90"
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+        <div class="bg-white rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 p-8 flex flex-col gap-4 border border-white/50">
+            <div class="text-5xl drop-shadow-sm">🖥️</div>
+            <h2 class="text-2xl font-bold tracking-tight mt-2" style="color: #022b3a;">Ver Inventario</h2>
+            <p class="text-sm font-medium flex-1 text-gray-500">Consulta todos los equipos y personal registrados en la infraestructura del sistema.</p>
+            <a routerLink="/equipos" class="mt-4 text-white font-semibold text-center py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
                 style="background-color: #47bfd7;">
                 Ir al Inventario
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl shadow p-8 flex flex-col gap-4">
-            <div class="text-4xl">➕</div>
-            <h2 class="text-xl font-semibold" style="color: #022b3a;">Registrar Equipo</h2>
-            <p class="text-sm" style="color: #47bfd7;">Da de alta un nuevo equipo en el sistema.</p>
+        <div class="bg-white rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 p-8 flex flex-col gap-4 border border-white/50">
+            <div class="text-5xl drop-shadow-sm">➕</div>
+            <h2 class="text-2xl font-bold tracking-tight mt-2" style="color: #022b3a;">Registrar Equipo</h2>
+            <p class="text-sm font-medium flex-1 text-gray-500">Da de alta un nuevo equipo de cómputo en el sistema para mantener el catálogo actualizado.</p>
             <a routerLink="/equipos/crear"
-                class="mt-2 text-white text-center py-2 rounded-lg transition hover:opacity-90"
+                class="mt-4 text-white font-semibold text-center py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
                 style="background-color: #fc2bb6;">
                 Registrar Nuevo
             </a>

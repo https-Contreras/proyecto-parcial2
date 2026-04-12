@@ -1,42 +1,79 @@
-<div class="px-16 py-12 min-h-screen" style="background-color: #e1e5f2;">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold" style="color: #022b3a;">Catálogo de Empleados</h1>
-        <p class="mt-1 text-sm" style="color: #47bfd7;">{{ empleados.length }} empleados registrados</p>
-    </div>
+<div class="px-6 sm:px-16 py-12 min-h-screen" style="background-color: #f1f5f9;">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-10 flex flex-col sm:flex-row justify-between items-center border-b pb-6 border-gray-200">
+            <div class="text-center sm:text-left">
+                <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-sm" style="color: #022b3a;">Catálogo de Empleados</h1>
+                <p class="mt-2 text-md font-medium" style="color: #47bfd7;">👥 {{ empleados().length }} empleados registrados</p>
+            </div>
+            <button (click)="crearEmpleado()"
+                class="mt-4 sm:mt-0 px-6 py-3 rounded-xl text-white font-bold shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95"
+                style="background-color: #022b3a;">
+                + Registrar Empleado
+            </button>
+        </div>
 
-    <div class="bg-white rounded-2xl shadow overflow-hidden">
-        <table class="w-full text-sm">
-            <thead style="background-color: #022b3a; color: white;">
-                <tr>
-                    <th class="text-left px-6 py-4">#</th>
-                    <th class="text-left px-6 py-4">Nombre</th>
-                    <th class="text-left px-6 py-4">Departamento</th>
-                    <th class="text-left px-6 py-4">Correo</th>
-                    <th class="text-left px-6 py-4">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (empleado of empleados; track empleado.id; let i = $index) {
-                <tr [class.bg-gray-50]="i % 2 !== 0" class="border-b border-gray-100 hover:bg-blue-50 transition">
-                    <td class="px-6 py-4 text-gray-400">{{ empleado.id }}</td>
-                    <td class="px-6 py-4 font-medium" style="color: #022b3a;">{{ empleado.nombre_completo }}</td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold"
-                            style="background-color: #e1e5f2; color: #022b3a;">
-                            {{ empleado.departamento }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-gray-500">{{ empleado.correo }}</td>
-                    <td class="px-6 py-4">
-                        <button (click)="verDetalle(empleado.id)"
-                            class="px-4 py-1 rounded-full text-white text-xs font-medium transition hover:opacity-90 cursor-pointer"
-                            style="background-color: #fc2bb6;">
-                            Ver Detalle
-                        </button>
-                    </td>
-                </tr>
+        <div class="bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden relative">
+            <!-- Decorative gradient line -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[#022b3a] via-[#47bfd7] to-[#fc2bb6]"></div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead style="background-color: #022b3a; color: white;" class="uppercase text-[0.70rem] tracking-widest font-bold">
+                        <tr>
+                            <th class="px-8 py-5 font-bold rounded-tl-xl">ID</th>
+                            <th class="px-6 py-5 font-bold">Nombre Completo</th>
+                            <th class="px-6 py-5 font-bold">Departamento</th>
+                            <th class="px-6 py-5 font-bold">Correo Electrónico</th>
+                            <th class="px-6 py-5 font-bold rounded-tr-xl text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-gray-700 bg-white">
+                        @for (empleado of empleados(); track empleado.id; let i = $index) {
+                        <tr class="hover:bg-blue-50/50 transition-colors duration-200 group">
+                            <td class="px-8 py-5 whitespace-nowrap font-mono text-xs text-gray-400">#{{ empleado.id }}</td>
+                            <td class="px-6 py-5 whitespace-nowrap">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm" style="background-color: #47bfd7;">
+                                        {{ empleado.nombre_completo[0] }}
+                                    </div>
+                                    <span class="font-extrabold text-[#022b3a] text-sm">{{ empleado.nombre_completo }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 whitespace-nowrap">
+                                <span class="px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider border border-[#e1e5f2]"
+                                    style="background-color: #f8fafc; color: #022b3a;">
+                                    {{ empleado.departamento }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 whitespace-nowrap text-gray-500 font-medium">
+                                {{ empleado.correo }}
+                            </td>
+                            <td class="px-6 py-5 whitespace-nowrap text-right">
+                                <div class="flex gap-2 justify-end opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                                    <button (click)="verDetalle(empleado.id)"
+                                        class="px-4 py-2 rounded-xl text-white text-xs font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+                                        style="background-color: #fc2bb6;" title="Ver Detalle">
+                                        👁️ Ver
+                                    </button>
+                                    <button (click)="editarEmpleado(empleado.id)"
+                                        class="px-4 py-2 rounded-xl text-white text-xs font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-95"
+                                        style="background-color: #47bfd7;" title="Editar">
+                                        ✏️ Editar
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                
+                @if (empleados().length === 0) {
+                <div class="text-center py-20 bg-gray-50/50">
+                    <p class="text-4xl mb-3">👻</p>
+                    <p class="text-gray-500 font-medium">No hay empleados registrados en la base de datos.</p>
+                </div>
                 }
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,20 +1,23 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { EquiposService } from '../../services/equipos.service';
 
 @Component({
-  selector: 'app-alta-equipo',
+  selector: 'app-editar-equipo',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './alta-equipo.html',
-  styleUrl: './alta-equipo.css'
+  templateUrl: './editar-equipo.html',
+  styleUrl: './editar-equipo.css'
 })
-export class AltaEquipo {
+export class EditarEquipo implements OnInit {
   private fb = inject(FormBuilder);
   protected router = inject(Router);
+  private route = inject(ActivatedRoute);
   private equiposService = inject(EquiposService);
+
+  equipoId!: number;
 
   form = this.fb.group({
     numero_serie: ['', [
@@ -42,14 +45,45 @@ export class AltaEquipo {
       Validators.minLength(4),
       Validators.maxLength(20)
     ]],
-    empleado_id: [null, [
+    empleado_id: [null as number | null, [
       Validators.min(1),
-      Validators.max(999),
+      Validators.max(99999),
       Validators.pattern(/^[0-9]+$/)
     ]]
   });
 
   get f() { return this.form.controls; }
+
+  ngOnInit(): void {
+    this.equipoId = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.equipoId) {
+      this.cargarEquipo();
+    }
+  }
+
+  cargarEquipo() {
+    this.equiposService.getEquipoById(this.equipoId).subscribe({
+      next: (res: any) => {
+        // Asumiendo que el backend retorna el equipo en res.data
+        const data = res.data[0] || res.data;
+        if (data) {
+          this.form.patchValue({
+            numero_serie: data.numero_serie,
+            tipo_equipo: data.tipo_equipo,
+            marca: data.marca,
+            modelo: data.modelo,
+            estado: data.estado,
+            empleado_id: data.empleado_id || null
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar equipo:', err);
+        Swal.fire('Error', 'No se pudo cargar la información del equipo', 'error');
+        this.router.navigate(['/equipos']);
+      }
+    });
+  }
 
   guardar() {
     if (this.form.invalid) {
@@ -63,14 +97,12 @@ export class AltaEquipo {
       return;
     }
 
-    console.log('Datos del equipo:', this.form.value);
-
-    this.equiposService.createEquipo(this.form.value).subscribe({
+    this.equiposService.updateEquipo(this.equipoId, this.form.value).subscribe({
       next: (response) => {
         Swal.fire({
           icon: 'success',
-          title: '¡Equipo registrado!',
-          text: 'El equipo fue dado de alta correctamente.',
+          title: '¡Equipo actualizado!',
+          text: 'El equipo fue modificado correctamente.',
           confirmButtonColor: '#022b3a',
           timer: 2000,
           timerProgressBar: true
@@ -79,11 +111,11 @@ export class AltaEquipo {
         });
       },
       error: (err) => {
-        console.error('Error al registrar equipo:', err);
+        console.error('Error al actualizar equipo:', err);
         Swal.fire({
           icon: 'error',
-          title: 'Error central',
-          text: 'Ocurrió un error al guardar el equipo en la base de datos.',
+          title: 'Error',
+          text: 'Ocurrió un error al actualizar el equipo.',
           confirmButtonColor: '#fc2bb6'
         });
       }

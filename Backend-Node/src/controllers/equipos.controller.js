@@ -14,6 +14,26 @@ const obtenerEquipos = async (req, res) => {
     }
 };
 
+// Obtener un equipo por ID (Para el GET)
+const obtenerEquipoById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const equipo = await EquiposModel.obtenerPorId(id);
+        
+        if (equipo.length === 0) {
+            return res.status(404).json({ status: 'error', message: 'Equipo no encontrado' });
+        }
+        
+        res.json({
+            status: 'success',
+            data: equipo[0]
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Error al obtener el equipo' });
+    }
+};
+
 // Crear un nuevo equipo (Para el POST)
 const crearEquipo = async (req, res) => {
     try {
@@ -31,7 +51,50 @@ const crearEquipo = async (req, res) => {
     }
 };
 
+// Actualizar un equipo (Para el PUT)
+const actualizarEquipo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultado = await EquiposModel.actualizarEquipo(id, req.body);
+        
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({ status: 'error', message: 'Equipo no encontrado para actualizar' });
+        }
+        
+        res.json({
+            status: 'success',
+            message: 'Equipo actualizado correctamente'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Error al actualizar el equipo' });
+    }
+};
+
+// Eliminar un equipo (Para el DELETE)
+const eliminarEquipo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const resultado = await EquiposModel.eliminarEquipo(id);
+        
+        if (resultado.affectedRows === 0) {
+            return res.status(404).json({ status: 'error', message: 'Equipo no encontrado para eliminar' });
+        }
+        
+        res.json({
+            status: 'success',
+            message: 'Equipo eliminado correctamente'
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Error al eliminar el equipo' });
+    }
+};
+
 module.exports = {
     obtenerEquipos,
-    crearEquipo
+    obtenerEquipoById,
+    crearEquipo,
+    actualizarEquipo,
+    eliminarEquipo
 };

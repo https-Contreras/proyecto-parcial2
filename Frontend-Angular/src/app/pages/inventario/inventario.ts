@@ -1,6 +1,8 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TarjetaEquipo, Equipo } from '../../components/tarjeta-equipo/tarjeta-equipo';
+import { EquiposService } from '../../services/equipos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inventario',
@@ -12,6 +14,7 @@ import { TarjetaEquipo, Equipo } from '../../components/tarjeta-equipo/tarjeta-e
 export class Inventario implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private equiposService = inject(EquiposService);
 
   // SIGNALS — Aportación Extra #2
   equipos = signal<Equipo[]>([]);
@@ -29,15 +32,8 @@ export class Inventario implements OnInit {
     return lista.filter(e => e.tipo_equipo === filtro);
   });
 
-  equiposMock: Equipo[] = [
-    { id: 1, numero_serie: 'LT-DELL-001', tipo_equipo: 'Laptop', marca: 'Dell', modelo: 'Latitude 5420', estado: 'Asignado', asignado_a: 'Jael Contreras' },
-    { id: 2, numero_serie: 'LT-HP-002', tipo_equipo: 'Laptop', marca: 'HP', modelo: 'EliteBook 840', estado: 'Disponible', asignado_a: null },
-    { id: 3, numero_serie: 'SW-CIS-007', tipo_equipo: 'Switch', marca: 'Cisco', modelo: 'Catalyst 2960', estado: 'Disponible', asignado_a: null },
-    { id: 4, numero_serie: 'SRV-DEL-010', tipo_equipo: 'Servidor', marca: 'Dell', modelo: 'PowerEdge R740', estado: 'Asignado', asignado_a: 'Atenea López' },
-  ];
-
   ngOnInit() {
-    this.equipos.set(this.equiposMock);
+    this.cargarEquipos();
 
     this.route.queryParamMap.subscribe(params => {
       const estado = params.get('estado');
@@ -49,6 +45,17 @@ export class Inventario implements OnInit {
         this.filtroActivo.set(tipo);
       } else {
         this.filtroActivo.set('todos');
+      }
+    });
+  }
+
+  cargarEquipos() {
+    this.equiposService.getEquipos().subscribe({
+      next: (response: any) => {
+        this.equipos.set(response.data || []);
+      },
+      error: (err) => {
+        console.error('Error al obtener equipos de la API', err);
       }
     });
   }
@@ -67,5 +74,50 @@ export class Inventario implements OnInit {
 
   irDetalle(id: number) {
     this.router.navigate(['/empleado', id]);
+  }
+
+  editarEquipo(equipo: Equipo) {
+    // Como no hay ruta explícita para editar, podríamos mostrar una alerta de redirección o navegar a una posible ruta.
+    Swal.fire({
+      title: 'Editar equipo',
+      text: `¿Deseas editar el equipo ${equipo.marca} ${equipo.modelo}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#47bfd7',
+      cancelButtonColor: '#022b3a'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirigir a la vista de edición /equipos/editar/:id
+        this.router.navigate(['/equipos/editar', equipo.id]);
+      }
+    });
+  }
+
+  eliminarEquipo(id: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡Esta acción eliminará el equipo permanentemente!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#022b3a'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.equiposService.deleteEquipo(id).subscribe({
+          next: () => {
+            Swal.fire('¡Eliminado!', 'El equipo fue eliminado correctamente.', 'success');
+            this.cargarEquipos(); // Refrescamos la lista
+          },
+          error: (err) => {
+            console.error('Error al eliminar:', err);
+            Swal.fire('Error', 'Hubo un problema al intentar eliminar el equipo.', 'error');
+          }
+        });
+      }
+    });
   }
 }

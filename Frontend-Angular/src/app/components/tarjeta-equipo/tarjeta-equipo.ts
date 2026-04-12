@@ -20,8 +20,18 @@ export interface Equipo {
 export class TarjetaEquipo {
   @Input() equipo!: Equipo;
   @Output() clickDetalle = new EventEmitter<number>();
+  @Output() clickEditar = new EventEmitter<Equipo>();
+  @Output() clickEliminar = new EventEmitter<number>();
 
   verDetalle() {
     this.clickDetalle.emit(this.equipo.id);
+  }
+
+  editar() {
+    this.clickEditar.emit(this.equipo);
+  }
+
+  eliminar() {
+    this.clickEliminar.emit(this.equipo.id);
   }
 }

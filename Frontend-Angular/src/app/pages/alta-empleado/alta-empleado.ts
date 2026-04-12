@@ -2,50 +2,35 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { EquiposService } from '../../services/equipos.service';
+import { EmpleadosService } from '../../services/empleados.service';
 
 @Component({
-  selector: 'app-alta-equipo',
+  selector: 'app-alta-empleado',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './alta-equipo.html',
-  styleUrl: './alta-equipo.css'
+  templateUrl: './alta-empleado.html',
+  styleUrl: './alta-empleado.css'
 })
-export class AltaEquipo {
+export class AltaEmpleado {
   private fb = inject(FormBuilder);
   protected router = inject(Router);
-  private equiposService = inject(EquiposService);
+  private empleadosService = inject(EmpleadosService);
 
   form = this.fb.group({
-    numero_serie: ['', [
+    nombre_completo: ['', [
       Validators.required,
       Validators.minLength(5),
-      Validators.pattern(/^[A-Z0-9\-]+$/)
+      Validators.maxLength(100)
     ]],
-    tipo_equipo: ['', [
+    departamento: ['', [
       Validators.required,
-      Validators.minLength(3),
+      Validators.minLength(2),
       Validators.maxLength(50)
     ]],
-    marca: ['', [
+    correo: ['', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(40)
-    ]],
-    modelo: ['', [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(60)
-    ]],
-    estado: ['Disponible', [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(20)
-    ]],
-    empleado_id: [null, [
-      Validators.min(1),
-      Validators.max(999),
-      Validators.pattern(/^[0-9]+$/)
+      Validators.email,
+      Validators.maxLength(100)
     ]]
   });
 
@@ -63,27 +48,25 @@ export class AltaEquipo {
       return;
     }
 
-    console.log('Datos del equipo:', this.form.value);
-
-    this.equiposService.createEquipo(this.form.value).subscribe({
+    this.empleadosService.createEmpleado(this.form.value).subscribe({
       next: (response) => {
         Swal.fire({
           icon: 'success',
-          title: '¡Equipo registrado!',
-          text: 'El equipo fue dado de alta correctamente.',
+          title: '¡Empleado registrado!',
+          text: 'El empleado fue dado de alta correctamente.',
           confirmButtonColor: '#022b3a',
           timer: 2000,
           timerProgressBar: true
         }).then(() => {
-          this.router.navigate(['/equipos']);
+          this.router.navigate(['/empleados']);
         });
       },
       error: (err) => {
-        console.error('Error al registrar equipo:', err);
+        console.error('Error al registrar empleado:', err);
         Swal.fire({
           icon: 'error',
           title: 'Error central',
-          text: 'Ocurrió un error al guardar el equipo en la base de datos.',
+          text: 'Ocurrió un error al guardar el empleado. Asegúrate de que el correo no esté duplicado.',
           confirmButtonColor: '#fc2bb6'
         });
       }
