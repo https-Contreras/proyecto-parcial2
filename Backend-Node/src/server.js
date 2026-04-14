@@ -4,7 +4,9 @@ require('dotenv').config();
 require('./config/db');
 // Inicializar la aplicación
 const app = express();
-const ALLOWED_ORIGINS = ["http://localhost:4200", "http://127.0.0.1:4200"]; // Agrega aquí la URL de tu frontend Angular
+const ALLOWED_ORIGINS = ["http://localhost:4200", "http://127.0.0.1:4200",
+  "https://tiadministrator.netlify.app/"
+]; // Agrega aquí la URL de tu frontend Angular
 
 
 // Middlewares requeridos
