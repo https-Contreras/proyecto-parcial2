@@ -49,8 +49,8 @@ CREATE TABLE usuarios (
 );
 
 INSERT INTO usuarios (usuario, password, nombre) VALUES
-('admin', '$2b$10$L8ZLu7K.obem0yuR63fd2OrCFuJPMioKS51CWCIdJKuzxXs0nJvPe', 'Administrador General'),
-('jael', '$2b$10$o8ZemoePhN39e3nYSQMHKeUWHAzFOftrm3TrLu1qr6h4NWpHpUDZy', 'Jael Contreras'),
-('atenea', '$2b$10$4LTQ0G.iakCzyQWNe3f51uDGpWQ7rVUAMhChc25Ejta/ZIrbYaF7q', 'Atenea López'),
-('romeo', '$2b$10$Cs0ItpyQU/aR2Nk/uC01peKeC.9d8vYwVn7TfihD8.gX76o2ChA4G', 'Romeo García'),
-('nicole', '$2b$10$gL2NPVev12uFE4A4/CE8BelzH1d36I5Ksw5qKpVVH8SLyPjiLDxCO', 'Nicole Silva');
+('admin', 'admin123', 'Administrador General'),
+('jael', 'jael123', 'Jael Contreras'),
+('atenea', 'atenea123', 'Atenea López'),
+('romeo', 'romeo123', 'Romeo García'),
+('nicole', 'nicole123', 'Nicole Silva');

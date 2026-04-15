@@ -1,5 +1,4 @@
 const usuariosModel = require('../models/usuarios.model');
-const bcrypt = require('bcryptjs');
 
 const login = async (req, res) => {
     try {
@@ -14,9 +13,8 @@ const login = async (req, res) => {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
-        // Comparar la contraseña en texto plano con el hash guardado en DB
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
+        // Comparar la contraseña en texto plano
+        if (password !== user.password) {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
