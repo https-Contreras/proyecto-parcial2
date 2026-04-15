@@ -42,6 +42,9 @@ app.use('/api/equipos', equiposRoutes);
 const empleadosRoutes = require('./routes/empleados.routes');
 app.use('/api/empleados', empleadosRoutes);
 
+const usuariosRoutes = require('./routes/usuarios.routes');
+app.use('/api/usuarios', usuariosRoutes);
+
 // Levantar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

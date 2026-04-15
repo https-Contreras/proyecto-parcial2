@@ -1,9 +1,10 @@
+@if (showNavbar) {
 <nav style="background-color: #022b3a;" class="text-white px-8 py-4 flex flex-wrap items-center justify-between shadow-lg sticky top-0 z-50">
   <div class="flex items-center gap-2">
     <span class="text-2xl font-black tracking-wide" style="color: #47bfd7;">⚙ Activos TI</span>
   </div>
   <div class="flex flex-wrap items-center gap-2 sm:gap-6 font-medium text-sm">
-    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
+    <a routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
       class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Inicio</a>
     <a routerLink="/equipos" routerLinkActive="active-link" 
       class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Inventario</a>
@@ -13,9 +14,14 @@
       class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">+ Registrar Equipo</a>
     <a routerLink="/contacto" routerLinkActive="active-link" 
       class="nav-link px-3 py-2 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5">Reportar</a>
+    <button (click)="logout()"
+      class="px-4 py-2 ml-4 rounded-xl text-[#022b3a] bg-white font-bold transition-all duration-300 hover:bg-gray-200 hover:-translate-y-0.5 cursor-pointer border-none outline-none">
+      Cerrar Sesión
+    </button>
   </div>
 </nav>
+}
 
-<main style="background-color: #e1e5f2;" class="min-h-screen font-sans">
+<main class="min-h-screen font-sans bg-[#f1f5f9]">
   <router-outlet />
 </main>

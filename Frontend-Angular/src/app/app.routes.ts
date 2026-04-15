@@ -1,4 +1,5 @@
 ﻿import { Routes } from '@angular/router';
+import { LoginComponent } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Inventario } from './pages/inventario/inventario';
 import { Empleados } from './pages/empleados/empleados';
@@ -11,7 +12,9 @@ import { Contacto } from './pages/contacto/contacto';
 import { NotFound } from './pages/not-found/not-found';
 
 export const routes: Routes = [
-    { path: '', component: Dashboard },
+    { path: 'login', component: LoginComponent },
+    { path: 'dashboard', component: Dashboard },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'equipos', component: Inventario },
     { path: 'equipos/crear', component: AltaEquipo },
     { path: 'equipos/editar/:id', component: EditarEquipo },

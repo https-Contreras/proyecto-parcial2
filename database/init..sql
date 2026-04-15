@@ -39,3 +39,18 @@ INSERT INTO equipos (numero_serie, tipo_equipo, marca, modelo, estado, empleado_
 ('SW-CIS-007', 'Switch', 'Cisco', 'Catalyst 2960', 'Disponible', NULL),
 ('LT-HP-008', 'Laptop', 'HP', 'EliteBook 840', 'Mantenimiento', NULL),
 ('RTR-MK-009', 'Router', 'MikroTik', 'Cloud Core CCR1009', 'Disponible', NULL);
+
+-- 3. Tabla de Usuarios y credenciales simuladas
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, -- En producción se guarda encriptada, aquí en texto plano/simple para efectos de la prueba
+    nombre VARCHAR(100) NOT NULL
+);
+
+INSERT INTO usuarios (usuario, password, nombre) VALUES
+('admin', '$2b$10$L8ZLu7K.obem0yuR63fd2OrCFuJPMioKS51CWCIdJKuzxXs0nJvPe', 'Administrador General'),
+('jael', '$2b$10$o8ZemoePhN39e3nYSQMHKeUWHAzFOftrm3TrLu1qr6h4NWpHpUDZy', 'Jael Contreras'),
+('atenea', '$2b$10$4LTQ0G.iakCzyQWNe3f51uDGpWQ7rVUAMhChc25Ejta/ZIrbYaF7q', 'Atenea López'),
+('romeo', '$2b$10$Cs0ItpyQU/aR2Nk/uC01peKeC.9d8vYwVn7TfihD8.gX76o2ChA4G', 'Romeo García'),
+('nicole', '$2b$10$gL2NPVev12uFE4A4/CE8BelzH1d36I5Ksw5qKpVVH8SLyPjiLDxCO', 'Nicole Silva');

@@ -1,0 +1,61 @@
+<div class="px-6 py-12 min-h-screen flex items-center justify-center bg-[#f1f5f9]">
+    <div class="max-w-md w-full p-10 bg-white rounded-3xl shadow-xl border border-gray-100 relative overflow-hidden group">
+        
+        <!-- Decoration -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-[#47bfd7]/10 rounded-full blur-3xl group-hover:bg-[#fc2bb6]/10 transition-colors duration-700"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-[#022b3a]/10 rounded-full blur-3xl group-hover:bg-[#47bfd7]/10 transition-colors duration-700"></div>
+
+        <div class="relative z-10 text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-[#022b3a] mb-2">🔐 Portal Seguro</h1>
+            <p class="text-sm font-semibold text-[#47bfd7] uppercase tracking-widest mt-2">Intranet Tecnológica</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" class="relative z-10 space-y-6">
+
+            <!-- Usuario -->
+            <div class="flex flex-col">
+                <label class="text-xs font-black uppercase tracking-wider text-[#022b3a] mb-2">Usuario de Acceso</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">👤</span>
+                    <input type="text" formControlName="usuario" placeholder="Ej: admin"
+                        class="pl-12 w-full p-4 bg-gray-50 border-2 rounded-2xl text-sm font-semibold outline-none transition-all duration-300 focus:bg-white"
+                        [class.border-red-400]="f['usuario'].invalid && f['usuario'].touched"
+                        [class.focus:border-[#47bfd7]]="!(f['usuario'].invalid && f['usuario'].touched)"
+                        [class.border-[#e1e5f2]]="!(f['usuario'].invalid && f['usuario'].touched)"/>
+                </div>
+                @if (f['usuario'].touched && f['usuario'].errors?.['required']) {
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ El usuario es obligatorio</span>
+                }
+                @if (f['usuario'].touched && f['usuario'].errors?.['minlength']) {
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Mínimo 3 caracteres</span>
+                }
+            </div>
+
+            <!-- Contraseña -->
+            <div class="flex flex-col">
+                <label class="text-xs font-black uppercase tracking-wider text-[#022b3a] mb-2">Clave de Seguridad</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">🔑</span>
+                    <input type="password" formControlName="password" placeholder="••••••••"
+                        class="pl-12 w-full p-4 bg-gray-50 border-2 rounded-2xl text-sm font-semibold outline-none transition-all duration-300 focus:bg-white"
+                        [class.border-red-400]="f['password'].invalid && f['password'].touched"
+                        [class.focus:border-[#47bfd7]]="!(f['password'].invalid && f['password'].touched)"
+                        [class.border-[#e1e5f2]]="!(f['password'].invalid && f['password'].touched)"/>
+                </div>
+                @if (f['password'].touched && f['password'].errors?.['required']) {
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ La contraseña es requerida</span>
+                }
+                @if (f['password'].touched && f['password'].errors?.['minlength']) {
+                <span class="text-red-500 text-xs font-bold mt-2 ml-1 flex items-center gap-1">⚠️ Mínimo 6 caracteres</span>
+                }
+            </div>
+
+            <!-- Botón Submit -->
+            <button type="submit"
+                class="w-full py-4 mt-8 bg-[#022b3a] hover:bg-[#022b3a]/90 text-white font-black text-sm uppercase tracking-[0.15em] rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#022b3a]/30 active:scale-95 cursor-pointer flex justify-center items-center gap-2">
+                <span>🚀 Iniciar Sesión</span>
+            </button>
+            <p class="text-center text-xs font-bold text-gray-400 mt-6">Acceso exclusivo para personal autorizado.</p>
+        </form>
+    </div>
+</div>
