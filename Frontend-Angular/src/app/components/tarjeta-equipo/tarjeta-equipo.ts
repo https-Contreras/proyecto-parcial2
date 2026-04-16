@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import Swal from 'sweetalert2';
 
 export interface Equipo {
   id: number;
@@ -8,6 +9,7 @@ export interface Equipo {
   modelo: string;
   estado: string;
   asignado_a: string | null;
+  empleado_id?: number | null;
 }
 
 @Component({

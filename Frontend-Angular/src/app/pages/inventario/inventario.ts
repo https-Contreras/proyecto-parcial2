@@ -72,8 +72,26 @@ export class Inventario implements OnInit {
     this.router.navigate(['/equipos'], { queryParams: { estado } });
   }
 
-  irDetalle(id: number) {
-    this.router.navigate(['/empleado', id]);
+  irDetalle(idEquipo: number) {
+    this.equiposService.getEquipoById(idEquipo).subscribe({
+      next: (response: any) => {
+        const equipo = response.data;
+        if (equipo && equipo.empleado_id) {
+          this.router.navigate(['/empleado', equipo.empleado_id]);
+        } else {
+          Swal.fire({
+            title: 'No asignado',
+            text: 'Este equipo no está asignado a ningún empleado o no se pudo encontrar el ID del empleado.',
+            icon: 'info',
+            confirmButtonColor: '#022b3a'
+          });
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener detalles del equipo', err);
+        Swal.fire('Error', 'No se pudo obtener la información del equipo', 'error');
+      }
+    });
   }
 
   editarEquipo(equipo: Equipo) {
